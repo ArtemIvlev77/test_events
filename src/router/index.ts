@@ -1,10 +1,10 @@
-import React, {ReactElement} from 'react';
+import React from 'react';
 import Login from '../pages/Login';
 import Event from '../pages/Event';
 
 export interface IRoute {
 	path: string;
-	element: ReactElement;
+	element: React.ComponentType;
 }
 
 export enum RouteNames {

@@ -1,25 +1,39 @@
 import React from 'react';
-import {Routes, Route} from 'react-router-dom'
-import {privateRoutes, publicRoutes} from '../router';
+import {Routes, Route, Navigate} from 'react-router-dom'
+import {privateRoutes, publicRoutes, RouteNames} from '../router';
+import {useTypedSelector} from '../hooks/useTypedSelector';
 
 const AppRouter = () => {
-	const auth = true;
+	const state = useTypedSelector(state => state.auth)
 	return (
-		auth ?
+		state.isAuth ?
 			<Routes>
 				{privateRoutes.map(route =>
-				<Route path={route.path}
-							element={route.element}
+					<Route
+						key={route.path}
+						path={route.path}
+						element={<route.element/>
+						}
 					/>
 				)}
+				<Route
+					path="*"
+					element={<Navigate to={RouteNames.EVENT} replace />}
+				/>
 			</Routes>
 			:
 			<Routes>
-				<Routes>
-					{publicRoutes.map(route =>
-						<Route path={route.path}
-						       element={route.element}
-						/>
+				{publicRoutes.map(route =>
+					<Route
+						key={route.path }
+						path={route.path}
+						element={<route.element/>}
+					/>
+				)}
+				<Route
+					path="*"
+					element={<Navigate to={RouteNames.LOGIN} replace />}
+				/>
 			</Routes>
 	);
 };
